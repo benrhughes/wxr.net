@@ -5,11 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5BC3E195-4550-4FC4-803C-6A357B9CA66C}</ProjectGuid>
+    <ProjectGuid>{7CE466C1-CAA3-4792-A9E9-2FA592AC75A6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WXR</RootNamespace>
-    <AssemblyName>wxr.net</AssemblyName>
+    <RootNamespace>WxrTests</RootNamespace>
+    <AssemblyName>WxrTests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -30,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\tools\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,9 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Post.cs" />
+    <Compile Include="SiteTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Site.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\wxr.net\wxr.net.csproj">
+      <Project>{5BC3E195-4550-4FC4-803C-6A357B9CA66C}</Project>
+      <Name>wxr.net</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
