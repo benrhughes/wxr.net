@@ -47,10 +47,10 @@ namespace WXR
 
 			w.WriteElementString("link", Link);
 			w.WriteElementString("pubDate", PubDate.ToString());
-			w.WriteElementString("dc:creator", "hughesoft.com");
+			w.WriteElementString("dc", "creator", "x", "hughesoft.com");
 			w.WriteElementString("description", Description);
 
-			w.WriteStartElement("content:encoded");
+			w.WriteStartElement("content", "encoded", "x");
 			w.WriteCData(Content);
 			w.WriteEndElement();
 
