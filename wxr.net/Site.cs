@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml;
 using System.IO;
+using XmlGuy;
 
 namespace WXR
 {
@@ -14,6 +14,8 @@ namespace WXR
 		public string Description { get; set; }
 		public string Content { get; set; }
 		public string Link { get; set; }
+		public string BaseUrl { get; set; }
+		public string BlogUrl { get; set; }
 		public DateTime PubDate { get; set; }
 		public IList<Post> Posts { get; set; }
 		public IEnumerable<string> Tags { get; set; }
@@ -22,6 +24,8 @@ namespace WXR
 		public Site()
 		{
 			Posts = new List<Post>();
+			Tags = new List<string>();
+			Categories = new List<string>();
 		}
 
 		public override string ToString()
@@ -36,27 +40,34 @@ namespace WXR
 
 		public void SerializeToDisk(string targetDir, bool includeMedia = true)
 		{
-			var w = XmlWriter.Create(Path.Combine(targetDir, Title + ".xml"));
 
-			w.WriteStartDocument();
-			w.WriteStartElement("channel");
+		}
 
-			w.WriteStartElement("title");
-			w.WriteCData(Title);
-			w.WriteEndElement();
+		public XmlDocument GenerateXML()
+		{
+			var doc = new XmlDocument();
 
-			w.WriteElementString("link", Link);
-			w.WriteElementString("pubDate", PubDate.ToString());
-			w.WriteElementString("dc", "creator", "x", "hughesoft.com");
-			w.WriteElementString("description", Description);
+			var root = doc.Begin("channel");
 
-			w.WriteStartElement("content", "encoded", "x");
-			w.WriteCData(Content);
-			w.WriteEndElement();
+			root.Add("title", Title).Up()
+				.Add("link", Link).Up()
+				.Add("description").CData(Description).Up()
+				.Add("language", "en").Up()
+				.Add("wp:wxr_version", "1.1").Up()
+				.Add("generator", "hughesoft.com").Up()
+				.Add("pubDate", PubDate.ToString()).Up()
+				.Add("wp:base_site_url", BaseUrl).Up()
+				.Add("wp:base_blog_url", BlogUrl);
 
-			w.WriteEndElement();
-			w.WriteEndDocument();
-			w.Flush();
+			foreach (var tag in Tags)
+				root.Add("wp:tag")
+						.Add("wp:tag_slug", tag).Up()
+						.Add("wp:tag_name", tag).Up();
+
+			foreach (var post in Posts)
+				root.Children.Add(post.GenerateXML());
+
+			return doc;
 		}
 	}
 }

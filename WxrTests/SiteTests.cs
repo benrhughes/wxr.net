@@ -16,7 +16,21 @@ namespace WxrTests
 			var s = new Site();
 			s.Title = "A Test";
 
-			s.SerializeToDisk(@"c:\users\ben\desktop");
+			var p = new Post
+			{
+				Title = "Post One",
+				Date = DateTime.Now,
+				Id = "postone",
+				Content = @"<b>First!</b>",
+				Description = "First",
+				Tags = new List<string> { "" },
+				Categories = new List<string> { "uncategorised" },
+				Status = "published"
+			};
+
+			s.Posts.Add(p);
+
+			Console.WriteLine(s.GenerateXML().ToString(true));
 		}
 	}
 }
