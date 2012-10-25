@@ -47,9 +47,15 @@ namespace WXR
 		{
 			var doc = new XmlDocument();
 
-			var root = doc.Begin("channel");
+			var rss = doc.Begin("rss");
+			rss.Attributes.Add("version", "2.0");
+			rss.Attributes.Add("xmlns:content", "http://purl.org/rss/1.0/modules/content/");
+			rss.Attributes.Add("xmlns:wfw", "http://wellformedweb.org/CommentAPI/");
+			rss.Attributes.Add("xmlns:dc", "http://purl.org/dc/elements/1.1/");
+			rss.Attributes.Add("xmlns:wp", "http://wordpress.org/export/1.0/");
 
-			root.Add("title", Title).Up()
+			var channel = rss.Add("channel");
+			channel.Add("title", Title).Up()
 				.Add("link", Link).Up()
 				.Add("description").CData(Description).Up()
 				.Add("language", "en").Up()
@@ -60,12 +66,12 @@ namespace WXR
 				.Add("wp:base_blog_url", BlogUrl);
 
 			foreach (var tag in Tags)
-				root.Add("wp:tag")
+				channel.Add("wp:tag")
 						.Add("wp:tag_slug", tag).Up()
 						.Add("wp:tag_name", tag).Up();
 
 			foreach (var post in Posts)
-				root.Children.Add(post.GenerateXML());
+				channel.Children.Add(post.GenerateXML());
 
 			return doc;
 		}
