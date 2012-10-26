@@ -37,8 +37,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="XmlGuy, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\Posterous Exporter\packages\XmlGuy.1.0.2\lib\XmlGuy.dll</HintPath>
+    <Reference Include="XmlGuy">
+      <HintPath>..\packages\XmlGuy.1.0.2\lib\XmlGuy.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

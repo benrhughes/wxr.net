@@ -13,28 +13,17 @@ namespace WxrTests
 		[Test]
 		public void MyTest()
 		{
-			var s = new Site();
-			s.Title = "A Test";
-			s.PubDate = DateTime.Now;
+			var site = new Site { Title = "A Test Site" };
 
-			var p = new Post
+			var post = new Post
 			{
-				Title = "Post One",
+				Title = "My First Post",
 				Date = DateTime.Now,
-				Id = "postone",
-				Content = @"<b>First!</b>",
-				Description = "First",
-				Tags = new List<Tag> { new Tag{ Name="A Tag", Slug="tag" } },
-				Categories = new List<Category> { new Category { Name = "Cat One", NiceName = "cat1" } },
-				Status = "publish"
+				Description = "A post, that was first",
+				Content = @"<b>First!</b>"
 			};
 
-			s.Posts.Add(p);
-			s.Categories = s.Posts.SelectMany(x => x.Categories);
-			s.Tags = s.Posts.SelectMany(x => x.Tags);
-
-			Console.WriteLine(s.GenerateXML().ToString(true));
-			s.SerializeToDisk(@"c:\users\ben\desktop");
+			site.SerializeToDisk(@"c:\users\ben\desktop");
 		}
 	}
 }
