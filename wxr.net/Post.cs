@@ -15,13 +15,13 @@ namespace WXR
 		public DateTime Date { get; set; }
 		public string Status { get; set; }
 
-		public IEnumerable<string> Tags { get; set; }
-		public IEnumerable<string> Categories { get; set; }
+		public IEnumerable<Tag> Tags { get; set; }
+		public IEnumerable<Category> Categories { get; set; }
 
 		public Post()
 		{
-			Tags = new List<string>();
-			Categories = new List<string>();
+			Tags = new List<Tag>();
+			Categories = new List<Category>();
 		}
 
 		public XmlElement GenerateXML()
@@ -40,13 +40,14 @@ namespace WXR
 
 			foreach (var tag in Tags)
 				post.Add("wp:tag")
-						.Add("wp:tag_slug", tag).Up()
-						.Add("wp:tag_name", tag).Up();
+						.Add("wp:tag_slug", tag.Slug).Up()
+						.Add("wp:tag_name", tag.Name).Up();
 
 			foreach (var cat in Categories)
 				post.Add("wp:category")
-					.Add("wp:category_nicename", cat).Up()
-					.Add("wp:cat_name", cat);
+						.Add("wp:category_nicename", cat.NiceName).Up()
+						.Add("wp:cat_name", cat.Name).Up()
+						.Add("wp:categor_parent", cat.Parent);
 
 			return post;
 		}

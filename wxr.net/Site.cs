@@ -18,14 +18,14 @@ namespace WXR
 		public string BlogUrl { get; set; }
 		public DateTime PubDate { get; set; }
 		public IList<Post> Posts { get; set; }
-		public IEnumerable<string> Tags { get; set; }
-		public IEnumerable<string> Categories { get; set; }
+		public IEnumerable<Tag> Tags { get; set; }
+		public IEnumerable<Category> Categories { get; set; }
 
 		public Site()
 		{
 			Posts = new List<Post>();
-			Tags = new List<string>();
-			Categories = new List<string>();
+			Tags = new List<Tag>();
+			Categories = new List<Category>();
 		}
 
 		public override string ToString()
@@ -40,7 +40,7 @@ namespace WXR
 
 		public void SerializeToDisk(string targetDir, bool includeMedia = true)
 		{
-
+			File.WriteAllText(Path.Combine(targetDir, Title + ".xml"), GenerateXML().ToString(true));
 		}
 
 		public XmlDocument GenerateXML()
@@ -48,11 +48,15 @@ namespace WXR
 			var doc = new XmlDocument();
 
 			var rss = doc.Begin("rss");
-			rss.Attributes.Add("version", "2.0");
-			rss.Attributes.Add("xmlns:content", "http://purl.org/rss/1.0/modules/content/");
-			rss.Attributes.Add("xmlns:wfw", "http://wellformedweb.org/CommentAPI/");
-			rss.Attributes.Add("xmlns:dc", "http://purl.org/dc/elements/1.1/");
-			rss.Attributes.Add("xmlns:wp", "http://wordpress.org/export/1.0/");
+			rss.Attributes = new Dictionary<string, string>()
+			{
+				{"version", "2.0"},
+				{"xmlns:content", "http://purl.org/rss/1.0/modules/content/"},
+				{"xmlns:wfw", "http://wellformedweb.org/CommentAPI/"},
+				{"xmlns:dc", "http://purl.org/dc/elements/1.1/"},
+				{"xmlns:wp", "http://wordpress.org/export/1.2/"},
+				{"xmlns:excerpt", "http://wordpress.org/export/1.2/excerpt/"}
+			};
 
 			var channel = rss.Add("channel");
 			channel.Add("title", Title).Up()
@@ -67,8 +71,14 @@ namespace WXR
 
 			foreach (var tag in Tags)
 				channel.Add("wp:tag")
-						.Add("wp:tag_slug", tag).Up()
-						.Add("wp:tag_name", tag).Up();
+						.Add("wp:tag_slug", tag.Slug).Up()
+						.Add("wp:tag_name", tag.Name).Up();
+
+			foreach (var cat in Categories)
+				channel.Add("wp:category")
+						.Add("wp:category_nicename", cat.NiceName).Up()
+						.Add("wp:cat_name", cat.Name).Up()
+						.Add("wp:categor_parent", cat.Parent);
 
 			foreach (var post in Posts)
 				channel.Children.Add(post.GenerateXML());
