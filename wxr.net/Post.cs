@@ -39,15 +39,12 @@ namespace WXR
 				.Add("wp:status", Status).Up();
 
 			foreach (var tag in Tags)
-				post.Add("wp:tag")
-						.Add("wp:tag_slug", tag.Slug).Up()
-						.Add("wp:tag_name", tag.Name).Up();
+				post.Add("category", new { nicename = tag.Slug, domain = "post_tag" })
+					.CData(tag.Name);
 
 			foreach (var cat in Categories)
-				post.Add("wp:category")
-						.Add("wp:category_nicename", cat.NiceName).Up()
-						.Add("wp:cat_name", cat.Name).Up()
-						.Add("wp:categor_parent", cat.Parent);
+				post.Add("category", new { nicename = cat.NiceName, domain = "category"})
+					.CData(cat.Name);
 
 			return post;
 		}

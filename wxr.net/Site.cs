@@ -18,14 +18,10 @@ namespace WXR
 		public string BlogUrl { get; set; }
 		public DateTime PubDate { get; set; }
 		public IList<Post> Posts { get; set; }
-		public IEnumerable<Tag> Tags { get; set; }
-		public IEnumerable<Category> Categories { get; set; }
-
+		
 		public Site()
 		{
 			Posts = new List<Post>();
-			Tags = new List<Tag>();
-			Categories = new List<Category>();
 		}
 
 		public override string ToString()
@@ -69,16 +65,16 @@ namespace WXR
 				.Add("wp:base_site_url", BaseUrl).Up()
 				.Add("wp:base_blog_url", BlogUrl);
 
-			foreach (var tag in Tags)
+			foreach (var tag in Posts.SelectMany(x => x.Tags))
 				channel.Add("wp:tag")
 						.Add("wp:tag_slug", tag.Slug).Up()
-						.Add("wp:tag_name", tag.Name).Up();
+						.Add("wp:tag_name").CData(tag.Name);
 
-			foreach (var cat in Categories)
+			foreach (var cat in Posts.SelectMany(x => x.Categories))
 				channel.Add("wp:category")
 						.Add("wp:category_nicename", cat.NiceName).Up()
-						.Add("wp:cat_name", cat.Name).Up()
-						.Add("wp:categor_parent", cat.Parent);
+						.Add("wp:cat_name").CData(cat.Name).Up()
+						.Add("wp:category_parent", cat.Parent);
 
 			foreach (var post in Posts)
 				channel.Children.Add(post.GenerateXML());

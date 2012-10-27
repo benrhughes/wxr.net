@@ -20,8 +20,13 @@ namespace WxrTests
 				Title = "My First Post",
 				Date = DateTime.Now,
 				Description = "A post, that was first",
-				Content = @"<b>First!</b>"
+				Content = @"<b>First!</b>",
+				Status = "publish",
+				Categories = new List<Category> { new Category { Name = "My Cat", NiceName = "mycat" } },
+				Tags = new List<Tag> { new Tag { Name = "My Tag", Slug = "mytag" } }
 			};
+
+			site.Posts.Add(post);
 
 			site.SerializeToDisk(@"c:\users\ben\desktop");
 		}
