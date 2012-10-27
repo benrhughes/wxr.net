@@ -21,7 +21,7 @@ site.SerializeToDisk(@"c:\users\admin\desktop");
 ```
 
 ## Status
-wxr.net currently produces valid, importable XML for sites and posts. The API support tags and categories, but they are not importing correctly.
+wxr.net currently produces valid, importable XML for sites, posts, tags and categories.
 
 Comments, authors, media etc will be coming soon.
 
