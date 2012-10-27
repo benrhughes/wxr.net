@@ -15,6 +15,8 @@ var post = new Post
 		Content = @"<b>First!</b>"
 };
 
+site.Posts.Add(post);
+
 site.SerializeToDisk(@"c:\users\admin\desktop");
 ```
 
