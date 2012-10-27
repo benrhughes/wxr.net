@@ -1,6 +1,6 @@
 #wxr.net
 
-wxr.net is a simple API for creating Wordpress export files, in Wordpress' WXR format.
+wxr.net is a simple API for creating files to be imported into Wordpress, using the WXR format.
 
 ## Usage
 ``` csharp
