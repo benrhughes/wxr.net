@@ -17,7 +17,7 @@ var post = new Post
 
 site.Posts.Add(post);
 
-site.SerializeToDisk(@"c:\users\admin\desktop");
+site.Save(@"c:\users\admin\desktop");
 ```
 
 ## Status
