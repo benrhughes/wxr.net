@@ -34,7 +34,7 @@ namespace WXR
 			throw new NotImplementedException();
 		}
 
-		public void SerializeToDisk(string targetDir, bool includeMedia = true)
+		public void Save(string targetDir, bool includeMedia = true)
 		{
 			File.WriteAllText(Path.Combine(targetDir, Title + ".xml"), GenerateXML().ToString(true));
 		}
